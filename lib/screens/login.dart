@@ -7,6 +7,8 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController emailController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -31,6 +33,8 @@ class LoginPage extends StatelessWidget {
                       padding:
                           EdgeInsets.only(left: 10.0, top: 20.0, right: 10.0),
                       child: TextFormField(
+                        controller: emailController,
+                        keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           labelText: 'Email',
                           border: OutlineInputBorder(
@@ -48,6 +52,7 @@ class LoginPage extends StatelessWidget {
                       padding: const EdgeInsets.only(
                           left: 10.0, top: 20.0, right: 10.0),
                       child: TextFormField(
+                        controller: passwordController,
                         obscureText: true,
                         decoration: InputDecoration(
                           labelText: 'Password',
@@ -72,7 +77,9 @@ class LoginPage extends StatelessWidget {
                               (states) => Colors.purple,
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/home');
+                          },
                           child: const Text(
                             'Login',
                             style: TextStyle(
@@ -86,10 +93,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         OutlinedButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => SignUp()),
-                            );
+                            Navigator.pushNamed(context, '/SignUp');
                           },
                           child: const Text(
                             'Sign Up',

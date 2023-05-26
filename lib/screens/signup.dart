@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/screens/login.dart';
+import 'package:todo_app/auth.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key});
@@ -8,7 +9,12 @@ class SignUp extends StatefulWidget {
   State<SignUp> createState() => _SignUpState();
 }
 
+TextEditingController emailController = TextEditingController();
+TextEditingController passwordController = TextEditingController();
+TextEditingController nameController = TextEditingController();
+
 class _SignUpState extends State<SignUp> {
+  bool isloading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,6 +33,7 @@ class _SignUpState extends State<SignUp> {
               Padding(
                 padding: EdgeInsets.only(left: 10.0, top: 20.0, right: 10.0),
                 child: TextFormField(
+                  controller: nameController,
                   decoration: InputDecoration(
                     labelText: 'Name',
                     border: OutlineInputBorder(
@@ -42,6 +49,7 @@ class _SignUpState extends State<SignUp> {
               Padding(
                 padding: EdgeInsets.only(left: 10.0, top: 20.0, right: 10.0),
                 child: TextFormField(
+                  controller: emailController,
                   decoration: InputDecoration(
                     labelText: 'Email',
                     border: OutlineInputBorder(
@@ -58,6 +66,7 @@ class _SignUpState extends State<SignUp> {
                 padding:
                     const EdgeInsets.only(left: 10.0, top: 20.0, right: 10.0),
                 child: TextFormField(
+                  controller: passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
                     labelText: 'Password',
@@ -82,21 +91,36 @@ class _SignUpState extends State<SignUp> {
                         (states) => Colors.purple,
                       ),
                     ),
-                    onPressed: () {},
-                    child: const Text(
-                      'Sign Up',
-                      style: TextStyle(fontSize: 23.0, color: Colors.black),
-                    ),
+                    child: isloading
+                        ? CircularProgressIndicator(
+                            color: Colors.black,
+                          )
+                        : Text(
+                            'Sign Up',
+                            style:
+                                TextStyle(fontSize: 23.0, color: Colors.black),
+                          ),
+                    onPressed: () {
+                      print('sign up');
+                      createUser(emailController.text, passwordController.text,
+                          nameController.text);
+                      setState(() {
+                        isloading = true;
+                      });
+                      Future.delayed(Duration(seconds: 5), () {
+                        setState(() {
+                          isloading = false;
+                          Navigator.pushNamed(context, '/login');
+                        });
+                      });
+                    },
                   ),
                   const SizedBox(
                     width: 15.0,
                   ),
                   OutlinedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginPage()),
-                      );
+                      Navigator.pushNamed(context, '/login');
                     },
                     child: const Text(
                       'Login',

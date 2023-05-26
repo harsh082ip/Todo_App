@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/screens/home.dart';
 import 'package:todo_app/screens/signup.dart';
 import 'screens/login.dart';
 
@@ -10,13 +11,13 @@ void main() {
 }
 
 class TodoApp extends StatelessWidget {
-  const TodoApp({super.key});
+  const TodoApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      // home: LoginPage(),
       theme: ThemeData(
         appBarTheme: AppBarTheme(
           iconTheme: IconThemeData(
@@ -24,6 +25,12 @@ class TodoApp extends StatelessWidget {
                   .black), // Set the desired color for the app drawer icon
         ),
       ),
+      routes: {
+        '/': (context) => LoginPage(),
+        '/home': (context) => HomePage(),
+        '/login': (context) => LoginPage(),
+        '/SignUp': (context) => SignUp(),
+      },
     );
   }
 }
