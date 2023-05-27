@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/screens/signup.dart';
 import 'package:flutter/widgets.dart';
+import 'package:todo_app/auth.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     TextEditingController emailController = TextEditingController();
@@ -74,11 +80,26 @@ class LoginPage extends StatelessWidget {
                           style: ButtonStyle(
                             backgroundColor:
                                 MaterialStateProperty.resolveWith<Color?>(
-                              (states) => Colors.purple,
+                              (states) => Color.fromARGB(255, 92, 147, 241),
                             ),
                           ),
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/home');
+                          onPressed: () async {
+                            loginUser(emailController.text,
+                                    passwordController.text)
+                                .then((value) {
+                              if (value) {
+                                Center(child: CircularProgressIndicator());
+                                Navigator.pushReplacementNamed(
+                                    context, '/home');
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content:
+                                        Text('Invalid Username and Password'),
+                                  ),
+                                );
+                              }
+                            });
                           },
                           child: const Text(
                             'Login',

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/screens/checkUserAuthentication.dart';
 import 'package:todo_app/screens/home.dart';
 import 'package:todo_app/screens/signup.dart';
 import 'screens/login.dart';
@@ -26,7 +27,7 @@ class TodoApp extends StatelessWidget {
         ),
       ),
       routes: {
-        '/': (context) => LoginPage(),
+        '/': (context) => CheckUserAuth(),
         '/home': (context) => HomePage(),
         '/login': (context) => LoginPage(),
         '/SignUp': (context) => SignUp(),

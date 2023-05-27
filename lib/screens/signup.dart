@@ -88,7 +88,7 @@ class _SignUpState extends State<SignUp> {
                     style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.resolveWith<Color?>(
-                        (states) => Colors.purple,
+                        (states) => Color.fromARGB(255, 92, 147, 241),
                       ),
                     ),
                     child: isloading
@@ -103,15 +103,25 @@ class _SignUpState extends State<SignUp> {
                     onPressed: () {
                       print('sign up');
                       createUser(emailController.text, passwordController.text,
-                          nameController.text);
-                      setState(() {
-                        isloading = true;
-                      });
-                      Future.delayed(Duration(seconds: 5), () {
-                        setState(() {
-                          isloading = false;
-                          Navigator.pushNamed(context, '/login');
-                        });
+                              nameController.text)
+                          .then((value) {
+                        if (value == "success") {
+                          setState(() {
+                            isloading = true;
+                          });
+                          Future.delayed(Duration(seconds: 5), () {
+                            setState(() {
+                              isloading = false;
+                              Navigator.pushReplacementNamed(context, '/login');
+                            });
+                          });
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(value),
+                            ),
+                          );
+                        }
                       });
                     },
                   ),
@@ -120,7 +130,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                   OutlinedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/login');
+                      Navigator.pushReplacementNamed(context, '/login');
                     },
                     child: const Text(
                       'Login',

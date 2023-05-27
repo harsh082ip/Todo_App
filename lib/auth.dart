@@ -1,20 +1,21 @@
 import 'package:appwrite/appwrite.dart';
 
 Client client = Client()
-    .setEndpoint('http://192.168.87.132/v1')
+    .setEndpoint('http://192.168.216.132/v1')
     .setProject('646bd7196eac1d3139d1')
     .setSelfSigned(status: true);
 
 Account account = Account(client);
 
 // Registring a user (Sign Up)
-Future createUser(String email, String password, String name) async {
+Future<String> createUser(String email, String password, String name) async {
   try {
     final user = await account.create(
         userId: ID.unique(), email: email, password: password, name: name);
     print('user created');
-  } catch (e) {
-    print(e);
+    return "success";
+  } on AppwriteException catch (e) {
+    return e.message.toString();
   }
 }
 
@@ -23,12 +24,34 @@ Future loginUser(String email, String password) async {
   try {
     final user =
         await account.createEmailSession(email: email, password: password);
+    return true;
     print('User Logged in');
   } catch (e) {
+    return false;
     print(e);
   }
 }
 
+// logout a user
 Future logoutUser() async {
-  account.deleteSession(sessionId: 'current');
+  try {
+    await account.deleteSession(sessionId: 'current');
+    print('User logged out');
+    return true;
+  } catch (e) {
+    return false;
+    print(e);
+  }
+}
+
+// check user is authenticated or not
+Future checkUserAuth() async {
+  try {
+    await account.getSession(sessionId: 'current');
+    // if exist true
+    return true;
+  } catch (e) {
+    return false;
+    print(e);
+  }
 }
