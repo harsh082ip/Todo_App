@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app/auth.dart';
+import 'package:todo_app/controllers/todo_provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -29,7 +31,17 @@ class HomePage extends StatelessWidget {
             ),
           ],
         ),
-        body: Center(child: Text('Hello User')),
+        body: Consumer(
+          builder: (context, TodoProvider provider, child) {
+            return ListView.builder(
+              itemCount: provider.alltodos.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                    title: Text(provider.alltodos[index].data.toString()));
+              },
+            );
+          },
+        ),
       ),
     );
   }

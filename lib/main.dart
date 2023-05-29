@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_app/controllers/todo_provider.dart';
 import 'package:todo_app/screens/checkUserAuthentication.dart';
 import 'package:todo_app/screens/home.dart';
 import 'package:todo_app/screens/signup.dart';
@@ -16,22 +18,25 @@ class TodoApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      // home: LoginPage(),
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          iconTheme: IconThemeData(
-              color: Colors
-                  .black), // Set the desired color for the app drawer icon
+    return ChangeNotifierProvider(
+      create: ((context) => TodoProvider()),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        // home: LoginPage(),
+        theme: ThemeData(
+          appBarTheme: AppBarTheme(
+            iconTheme: IconThemeData(
+                color: Colors
+                    .black), // Set the desired color for the app drawer icon
+          ),
         ),
+        routes: {
+          '/': (context) => CheckUserAuth(),
+          '/home': (context) => HomePage(),
+          '/login': (context) => LoginPage(),
+          '/SignUp': (context) => SignUp(),
+        },
       ),
-      routes: {
-        '/': (context) => CheckUserAuth(),
-        '/home': (context) => HomePage(),
-        '/login': (context) => LoginPage(),
-        '/SignUp': (context) => SignUp(),
-      },
     );
   }
 }
