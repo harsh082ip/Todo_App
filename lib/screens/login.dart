@@ -19,9 +19,8 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         title: const Text(
           'Login page',
-          style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Color.fromARGB(255, 77, 182, 172),
       ),
       drawer: const Drawer(
         shadowColor: Colors.black,

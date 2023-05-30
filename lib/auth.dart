@@ -1,7 +1,7 @@
 import 'package:appwrite/appwrite.dart';
 
 Client client = Client()
-    .setEndpoint('http://192.168.3.132/v1')
+    .setEndpoint('http://192.168.150.132/v1')
     .setProject('646bd7196eac1d3139d1')
     .setSelfSigned(status: true);
 

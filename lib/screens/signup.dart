@@ -20,7 +20,7 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sign Up'),
-        backgroundColor: Colors.white,
+        backgroundColor: Color.fromARGB(255, 77, 182, 172),
       ),
       drawer: const Drawer(),
       body: Container(

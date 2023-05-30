@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/controllers/todo_provider.dart';
 import 'package:todo_app/screens/checkUserAuthentication.dart';
 import 'package:todo_app/screens/home.dart';
+import 'package:todo_app/screens/newTodo.dart';
 import 'package:todo_app/screens/signup.dart';
 import 'screens/login.dart';
 
@@ -35,6 +36,7 @@ class TodoApp extends StatelessWidget {
           '/home': (context) => HomePage(),
           '/login': (context) => LoginPage(),
           '/SignUp': (context) => SignUp(),
+          '/newTodo': (context) => NewTodo(),
         },
       ),
     );

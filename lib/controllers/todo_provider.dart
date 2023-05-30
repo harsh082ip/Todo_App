@@ -19,6 +19,7 @@ class TodoProvider extends ChangeNotifier {
   // get all todos and store them in _todos
   List<appwrite.Document> get alltodos => _todos;
 
+  // read all the todos
   Future readtodos() async {
     try {
       final data = await database.listDocuments(
@@ -28,5 +29,38 @@ class TodoProvider extends ChangeNotifier {
     } catch (e) {
       print(e);
     }
+  }
+
+  // create a new todo
+  Future createTodo(String? title, String? description) async {
+    final collection = await database.createDocument(
+      databaseId: databaseId,
+      collectionId: collectionId,
+      documentId: ID.unique(),
+      data: {
+        "Title": title,
+        "Description": description,
+        "isDone": false,
+        "CreatedBy": "gamer@gmail.com"
+      },
+    );
+    readtodos();
+    notifyListeners();
+  }
+
+  // make changes in the todo done or undone
+  Future markCompleted(String id, bool isDone) async {
+    final data = await database.updateDocument(
+      databaseId: databaseId,
+      collectionId: collectionId,
+      documentId: id,
+      data: {
+        "isDone": isDone,
+      },
+    );
+    print('Document Modified');
+
+    readtodos();
+    notifyListeners();
   }
 }
