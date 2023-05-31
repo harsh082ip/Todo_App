@@ -63,4 +63,21 @@ class TodoProvider extends ChangeNotifier {
     readtodos();
     notifyListeners();
   }
+
+  // update a todo
+  Future updateTodo(String title, String desc, String id) async {
+    final data = await database.updateDocument(
+      databaseId: databaseId,
+      collectionId: collectionId,
+      documentId: id,
+      data: {
+        "Title": title,
+        "Description": desc,
+      },
+    );
+    print('Todo Updated');
+
+    readtodos();
+    notifyListeners();
+  }
 }

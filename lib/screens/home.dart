@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/auth.dart';
 import 'package:todo_app/controllers/todo_provider.dart';
-import 'package:todo_app/screens/newTodo.dart';
+import 'package:todo_app/screens/editTodos.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -40,6 +40,19 @@ class HomePage extends StatelessWidget {
               itemCount: provider.alltodos.length,
               itemBuilder: (context, index) {
                 return ListTile(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditTodos(
+                          todoId: provider.alltodos[index].$id,
+                          title: provider.alltodos[index].data['Title'],
+                          description:
+                              provider.alltodos[index].data['Description'],
+                        ),
+                      ),
+                    );
+                  },
                   title: Text(
                     provider.alltodos[index].data['Title'],
                   ),
