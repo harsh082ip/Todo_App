@@ -6,7 +6,6 @@ import 'package:todo_app/screens/editTodos.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,6 +20,8 @@ class HomePage extends StatelessWidget {
                 logoutUser().then((value) {
                   if (value) {
                     Navigator.pushReplacementNamed(context, '/login');
+                    Provider.of<TodoProvider>(context, listen: false)
+                        .clearTodos(); // Clear todos on logout
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(

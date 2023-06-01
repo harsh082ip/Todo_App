@@ -66,6 +66,8 @@ class _NewTodoState extends State<NewTodo> {
           ElevatedButton(
             onPressed: () {
               try {
+                final provider =
+                    Provider.of<TodoProvider>(context, listen: false);
                 provider.createTodo(
                     titlecontroller.text, descriptioncontroller.text);
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -73,9 +75,10 @@ class _NewTodoState extends State<NewTodo> {
                     content: Text('Todo Created'),
                   ),
                 );
+                print('todo added');
                 Navigator.pop(context);
               } catch (e) {
-                print(e);
+                print('cannot add');
               }
             },
             child: Text('Create'),

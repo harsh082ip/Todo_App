@@ -3,11 +3,13 @@ import 'package:appwrite/appwrite.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_app/auth.dart';
+import 'package:todo_app/sharedPref.dart';
 
 class TodoProvider extends ChangeNotifier {
   TodoProvider() {
     readtodos();
   }
+
   // adding Database and Collection Id
   String databaseId = "6475218aa2fbd1197f94";
   String collectionId = "647521b352462c3d8fce";
@@ -19,20 +21,64 @@ class TodoProvider extends ChangeNotifier {
   // get all todos and store them in _todos
   List<appwrite.Document> get alltodos => _todos;
 
+  void clearTodos() {
+    _todos.clear();
+    readtodos();
+    notifyListeners();
+  }
+
   // read all the todos
+  // Future readtodos() async {
+  //   // _todos.clear();
+  //   print('Fetching data');
+  //   final email = await UserSavedData.getEmail();
+
+  //   try {
+  //     final data = await database.listDocuments(
+  //       databaseId: databaseId,
+  //       collectionId: collectionId,
+  //     );
+
+  //     final filteredDocuments = data.documents.where((document) {
+  //       final createdBy = document.data['CreatedBy'];
+  //       return createdBy == email;
+  //     }).toList();
+
+  //     _todos.addAll(filteredDocuments);
+  //   } catch (e) {
+  //     print("ahhhhhh");
+  //   }
+  //   notifyListeners();
+  // }
+
   Future readtodos() async {
+    print('Fetching data');
+    final email = await UserSavedData.getEmail();
+
     try {
       final data = await database.listDocuments(
-          databaseId: databaseId, collectionId: collectionId);
-      _todos = data.documents;
+        databaseId: databaseId,
+        collectionId: collectionId,
+      );
+
+      final filteredDocuments = data.documents.where((document) {
+        final createdBy = document.data['CreatedBy'];
+        return createdBy == email;
+      }).toList();
+
+      _todos.clear(); // Clear the existing todos
+      _todos.addAll(filteredDocuments); // Add the filtered documents
+
       notifyListeners();
     } catch (e) {
-      print(e);
+      print("Error fetching todos: $e");
     }
   }
 
   // create a new todo
   Future createTodo(String? title, String? description) async {
+    final email = await UserSavedData.getEmail();
+    print(email.toString());
     final collection = await database.createDocument(
       databaseId: databaseId,
       collectionId: collectionId,
@@ -41,32 +87,73 @@ class TodoProvider extends ChangeNotifier {
         "Title": title,
         "Description": description,
         "isDone": false,
-        "CreatedBy": "gamer@gmail.com"
+        "CreatedBy": email
       },
     );
-    readtodos();
+    // readtodos();
+    _todos.add(collection);
     notifyListeners();
   }
 
   // make changes in the todo done or undone
   Future markCompleted(String id, bool isDone) async {
-    final data = await database.updateDocument(
-      databaseId: databaseId,
-      collectionId: collectionId,
-      documentId: id,
-      data: {
-        "isDone": isDone,
-      },
-    );
-    print('Document Modified');
+    final email = await UserSavedData.getEmail();
 
-    readtodos();
-    notifyListeners();
+    try {
+      final document = await database.getDocument(
+        databaseId: databaseId,
+        collectionId: collectionId,
+        documentId: id,
+      );
+
+      if (document.data['CreatedBy'] == email) {
+        await database.updateDocument(
+          databaseId: databaseId,
+          collectionId: collectionId,
+          documentId: id,
+          data: {
+            "isDone": isDone,
+          },
+        );
+
+        print('Document Modified');
+
+        // Update the corresponding todo in the _todos list
+        final index = _todos.indexWhere((todo) => todo.$id == id);
+        if (index != -1) {
+          _todos[index].data['isDone'] = isDone;
+        }
+
+        notifyListeners();
+      } else {
+        print('Unauthorized access');
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   // update a todo
+//   Future updateTodo(String title, String desc, String id) async {
+//     final data = await database.updateDocument(
+//       databaseId: databaseId,
+//       collectionId: collectionId,
+//       documentId: id,
+//       data: {
+//         "Title": title,
+//         "Description": desc,
+//       },
+//     );
+//     print('Todo Updated');
+
+//     // readtodos();
+//     notifyListeners();
+//   }
+// }
+
+// update a todo
   Future updateTodo(String title, String desc, String id) async {
-    final data = await database.updateDocument(
+    await database.updateDocument(
       databaseId: databaseId,
       collectionId: collectionId,
       documentId: id,
@@ -77,7 +164,13 @@ class TodoProvider extends ChangeNotifier {
     );
     print('Todo Updated');
 
-    readtodos();
+    // Update the corresponding todo in the _todos list
+    final index = _todos.indexWhere((todo) => todo.$id == id);
+    if (index != -1) {
+      _todos[index].data['Title'] = title;
+      _todos[index].data['Description'] = desc;
+    }
+
     notifyListeners();
   }
 }

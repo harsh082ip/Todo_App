@@ -8,10 +8,14 @@ import 'package:todo_app/screens/editTodos.dart';
 import 'package:todo_app/screens/home.dart';
 import 'package:todo_app/screens/newTodo.dart';
 import 'package:todo_app/screens/signup.dart';
+import 'package:todo_app/sharedPref.dart';
 import 'screens/login.dart';
 
 void main() {
-  runApp(const TodoApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  UserSavedData.init().then((_) {
+    runApp(const TodoApp());
+  });
 }
 
 class TodoApp extends StatelessWidget {

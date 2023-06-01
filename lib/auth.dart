@@ -1,7 +1,10 @@
 import 'package:appwrite/appwrite.dart';
 
+import 'package:todo_app/sharedPref.dart';
+import 'controllers/todo_provider.dart';
+
 Client client = Client()
-    .setEndpoint('http://192.168.45.132/v1')
+    .setEndpoint('http://192.168.34.132/v1')
     .setProject('646bd7196eac1d3139d1')
     .setSelfSigned(status: true);
 
@@ -24,6 +27,8 @@ Future loginUser(String email, String password) async {
   try {
     final user =
         await account.createEmailSession(email: email, password: password);
+    await UserSavedData.saveEmail(email);
+
     return true;
     print('User Logged in');
   } catch (e) {
@@ -37,6 +42,7 @@ Future logoutUser() async {
   try {
     await account.deleteSession(sessionId: 'current');
     print('User logged out');
+
     return true;
   } catch (e) {
     return false;

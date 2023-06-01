@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app/screens/signup.dart';
 import 'package:flutter/widgets.dart';
 import 'package:todo_app/auth.dart';
+
+import '../controllers/todo_provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -83,22 +86,21 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                           onPressed: () async {
-                            loginUser(emailController.text,
-                                    passwordController.text)
-                                .then((value) {
-                              if (value) {
-                                Center(child: CircularProgressIndicator());
-                                Navigator.pushReplacementNamed(
-                                    context, '/home');
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content:
-                                        Text('Invalid Username and Password'),
-                                  ),
-                                );
-                              }
-                            });
+                            bool loginSuccess = await loginUser(
+                                emailController.text, passwordController.text);
+                            if (loginSuccess) {
+                              print('Login successful');
+                              Provider.of<TodoProvider>(context, listen: false)
+                                  .readtodos();
+                              Navigator.pushReplacementNamed(context, '/home');
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text('Invalid Username and Password'),
+                                ),
+                              );
+                            }
                           },
                           child: const Text(
                             'Login',
