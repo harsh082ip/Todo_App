@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/screens/signup.dart';
 import 'package:flutter/widgets.dart';
 import 'package:todo_app/auth.dart';
 

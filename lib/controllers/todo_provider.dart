@@ -27,6 +27,12 @@ class TodoProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // isLoading for CircularProgressIndicator
+  bool _isLoading = false;
+
+  // check if it is loading
+  bool get checkLoading => _isLoading;
+
   // read all the todos
   // Future readtodos() async {
   //   // _todos.clear();
@@ -52,6 +58,8 @@ class TodoProvider extends ChangeNotifier {
   // }
 
   Future readtodos() async {
+    _isLoading = true;
+    notifyListeners();
     print('Fetching data');
     final email = await UserSavedData.getEmail();
 
@@ -69,8 +77,10 @@ class TodoProvider extends ChangeNotifier {
       _todos.clear(); // Clear the existing todos
       _todos.addAll(filteredDocuments); // Add the filtered documents
 
+      _isLoading = false;
       notifyListeners();
     } catch (e) {
+      _isLoading = false;
       print("Error fetching todos: $e");
     }
   }
@@ -172,5 +182,24 @@ class TodoProvider extends ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  // delete a todo
+  Future deleteTodo(String id) async {
+    final data = await database.deleteDocument(
+        databaseId: databaseId, collectionId: collectionId, documentId: id);
+    readtodos();
+    notifyListeners();
+  }
+
+  // get the length of all completed todos
+  int getcompletedLength() {
+    int count = 0;
+    for (var i = 0; i < _todos.length; i++) {
+      if (_todos[i].data['isDone']) {
+        count++;
+      }
+    }
+    return count;
   }
 }
