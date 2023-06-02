@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/auth.dart';
 import 'package:todo_app/controllers/todo_provider.dart';
 import 'package:todo_app/screens/editTodos.dart';
+import 'package:todo_app/sharedPref.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,32 +16,49 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
+    TodoProvider todoProvider =
+        Provider.of<TodoProvider>(context, listen: false);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           title: Text('Your Todo\'s'),
           backgroundColor: Color.fromARGB(255, 77, 182, 172),
-          actions: [
-            IconButton(
-              onPressed: () {
-                logoutUser().then((value) {
-                  if (value) {
-                    Navigator.pushReplacementNamed(context, '/login');
-                    Provider.of<TodoProvider>(context, listen: false)
-                        .clearTodos(); // Clear todos on logout
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Failed Logging out'),
-                      ),
-                    );
-                  }
-                });
-              },
-              icon: Icon(Icons.logout),
-            ),
-          ],
+        ),
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              UserAccountsDrawerHeader(
+                accountName: Text('Welcome'),
+                accountEmail: Text("${UserSavedData.getEmail()}"),
+              ),
+              ListTile(
+                onTap: () {
+                  todoProvider.deleteAllTodos().then(
+                    (value) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('All Todos Deleted'),
+                        ),
+                      );
+                    },
+                  );
+                },
+                title: Text('Delete All Todos'),
+                leading: Icon(Icons.delete_forever),
+              ),
+              ListTile(
+                onTap: () {
+                  Center(child: CircularProgressIndicator());
+                  logoutUser().then(
+                    (value) => Navigator.pushReplacementNamed(context, '/'),
+                  );
+                },
+                title: Text('Logout'),
+                leading: Icon(Icons.logout),
+              )
+            ],
+          ),
         ),
         body: _selectedIndex == 0 ? showOnGoingTodos() : showCompletedTodos(),
         bottomNavigationBar: BottomNavigationBar(
@@ -121,7 +139,10 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                     );
                                   },
-                                  icon: Icon(Icons.delete_rounded)),
+                                  icon: Icon(
+                                    Icons.delete_rounded,
+                                    color: Colors.red,
+                                  )),
                             );
                     },
                   );

@@ -202,4 +202,16 @@ class TodoProvider extends ChangeNotifier {
     }
     return count;
   }
+
+  // delete all the todos
+  Future deleteAllTodos() async {
+    for (var i = 0; i < _todos.length; i++) {
+      await database.deleteDocument(
+          databaseId: databaseId,
+          collectionId: collectionId,
+          documentId: _todos[i].$id);
+    }
+    readtodos();
+    notifyListeners();
+  }
 }
