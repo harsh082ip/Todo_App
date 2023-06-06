@@ -25,7 +25,7 @@ To get started with the Todo App, follow these steps:
 1. Install Flutter on your machine. Refer to the [official Flutter documentation](https://flutter.dev/docs/get-started/install) for detailed instructions.
 2. Clone this repository to your local machine using the following command:
 
-git clone https://github.com/harsh082ip/Todo_App
+*git clone https://github.com/harsh082ip/Todo_App*
 
 3. Open the project in your preferred IDE (e.g., Android Studio, Visual Studio Code).
 4. Run the app on a simulator/emulator or connect your physical device.
@@ -48,7 +48,7 @@ If you would like to contribute code to the project, you can do so by submitting
 1. Fork the repository by clicking the "Fork" button on the top right corner of the GitHub page.
 2. Clone your forked repository to your local machine using the following command:
 
-git clone https://github.com/harsh082ip/Todo_App
+*git clone https://github.com/harsh082ip/Todo_App*
 
 3. Create a new branch for your changes:
 git checkout -b my-branch
