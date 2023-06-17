@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/auth.dart';
+import 'package:todo_app/splash_screen.dart';
 
 class CheckUserAuth extends StatefulWidget {
   const CheckUserAuth({super.key});
@@ -22,10 +23,8 @@ class _CheckUserAuthState extends State<CheckUserAuth> {
   }
 
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(),
-      ),
+    return const Scaffold(
+      body: SplashScreen(),
     );
   }
 }

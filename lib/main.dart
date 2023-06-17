@@ -9,6 +9,7 @@ import 'package:todo_app/screens/home.dart';
 import 'package:todo_app/screens/newTodo.dart';
 import 'package:todo_app/screens/signup.dart';
 import 'package:todo_app/sharedPref.dart';
+
 import 'screens/login.dart';
 
 void main() {
@@ -29,18 +30,18 @@ class TodoApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         // home: LoginPage(),
         theme: ThemeData(
-          appBarTheme: AppBarTheme(
+          appBarTheme: const AppBarTheme(
             iconTheme: IconThemeData(
               color: Colors.black,
             ),
           ),
         ),
         routes: {
-          '/': (context) => CheckUserAuth(),
-          '/home': (context) => HomePage(),
-          '/login': (context) => LoginPage(),
-          '/SignUp': (context) => SignUp(),
-          '/newTodo': (context) => NewTodo(),
+          '/': (context) => const CheckUserAuth(),
+          '/home': (context) => const HomePage(),
+          '/login': (context) => const LoginPage(),
+          '/SignUp': (context) => const SignUp(),
+          '/newTodo': (context) => const NewTodo(),
         },
         // onGenerateRoute: (settings) {
         //   if (settings.name == '/edit') {

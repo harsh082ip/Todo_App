@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
         title: const Text(
           'Login page',
         ),
-        backgroundColor: Color.fromARGB(255, 77, 182, 172),
+        backgroundColor: const Color.fromARGB(255, 77, 182, 172),
       ),
       drawer: const Drawer(
         shadowColor: Colors.black,
