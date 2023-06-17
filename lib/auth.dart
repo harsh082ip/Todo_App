@@ -4,7 +4,7 @@ import 'package:todo_app/sharedPref.dart';
 import 'controllers/todo_provider.dart';
 
 Client client = Client()
-    .setEndpoint('http://192.168.186.132/v1')
+    .setEndpoint('http://192.168.1.8/v1')
     .setProject('646bd7196eac1d3139d1')
     .setSelfSigned(status: true);
 
