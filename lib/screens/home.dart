@@ -22,14 +22,14 @@ class _HomePageState extends State<HomePage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Your Todo\'s'),
-          backgroundColor: Color.fromARGB(255, 77, 182, 172),
+          title: const Text('Your Todo\'s'),
+          backgroundColor: const Color.fromARGB(255, 77, 182, 172),
         ),
         drawer: Drawer(
           child: ListView(
             children: [
               UserAccountsDrawerHeader(
-                accountName: Text('Welcome'),
+                accountName: const Text('Welcome'),
                 accountEmail: Text("${UserSavedData.getEmail()}"),
               ),
               ListTile(
@@ -37,25 +37,25 @@ class _HomePageState extends State<HomePage> {
                   todoProvider.deleteAllTodos().then(
                     (value) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           content: Text('All Todos Deleted'),
                         ),
                       );
                     },
                   );
                 },
-                title: Text('Delete All Todos'),
-                leading: Icon(Icons.delete_forever),
+                title: const Text('Delete All Todos'),
+                leading: const Icon(Icons.delete_forever),
               ),
               ListTile(
                 onTap: () {
-                  Center(child: CircularProgressIndicator());
+                  const Center(child: CircularProgressIndicator());
                   logoutUser().then(
                     (value) => Navigator.pushReplacementNamed(context, '/'),
                   );
                 },
-                title: Text('Logout'),
-                leading: Icon(Icons.logout),
+                title: const Text('Logout'),
+                leading: const Icon(Icons.logout),
               )
             ],
           ),
@@ -68,14 +68,14 @@ class _HomePageState extends State<HomePage> {
                     _selectedIndex = value;
                   },
                 ),
-            items: [
+            items: const [
               BottomNavigationBarItem(
                   icon: Icon(Icons.list), label: 'Todo List'),
               BottomNavigationBarItem(
                   icon: Icon(Icons.done), label: 'Completed'),
             ]),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Color.fromARGB(255, 77, 182, 172),
+          backgroundColor: const Color.fromARGB(255, 77, 182, 172),
           onPressed: () {
             Navigator.pushNamed(context, '/newTodo');
           },
@@ -89,16 +89,16 @@ class _HomePageState extends State<HomePage> {
     return Consumer(
       builder: (context, TodoProvider provider, child) {
         return provider.checkLoading
-            ? CircularProgressIndicator()
+            ? const CircularProgressIndicator()
             : provider.alltodos.length - provider.getcompletedLength() == 0
-                ? Center(
+                ? const Center(
                     child: Text('No New Todos'),
                   )
                 : ListView.builder(
                     itemCount: provider.alltodos.length,
                     itemBuilder: (context, index) {
                       return provider.alltodos[index].data['isDone']
-                          ? SizedBox()
+                          ? const SizedBox()
                           : ListTile(
                               onTap: () {
                                 Navigator.push(
@@ -134,12 +134,12 @@ class _HomePageState extends State<HomePage> {
                                     provider.deleteTodo(
                                         provider.alltodos[index].$id);
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
+                                      const SnackBar(
                                         content: Text('Todo deleted'),
                                       ),
                                     );
                                   },
-                                  icon: Icon(
+                                  icon: const Icon(
                                     Icons.delete_rounded,
                                     color: Colors.red,
                                   )),
@@ -154,16 +154,16 @@ class _HomePageState extends State<HomePage> {
     return Consumer(
       builder: (context, TodoProvider provider, child) {
         return provider.checkLoading
-            ? CircularProgressIndicator()
+            ? const CircularProgressIndicator()
             : provider.getcompletedLength() == 0
-                ? Center(
+                ? const Center(
                     child: Text('No Completed Todos'),
                   )
                 : ListView.builder(
                     itemCount: provider.alltodos.length,
                     itemBuilder: (context, index) {
                       return provider.alltodos[index].data['isDone'] == false
-                          ? SizedBox()
+                          ? const SizedBox()
                           : ListTile(
                               onTap: () {
                                 Navigator.push(
@@ -199,12 +199,12 @@ class _HomePageState extends State<HomePage> {
                                     provider.deleteTodo(
                                         provider.alltodos[index].$id);
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
+                                      const SnackBar(
                                         content: Text('Todo deleted'),
                                       ),
                                     );
                                   },
-                                  icon: Icon(Icons.delete_rounded)),
+                                  icon: const Icon(Icons.delete_rounded)),
                             );
                     },
                   );
