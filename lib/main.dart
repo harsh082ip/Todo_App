@@ -30,6 +30,7 @@ class TodoApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         // home: LoginPage(),
         theme: ThemeData(
+          useMaterial3: true,
           appBarTheme: const AppBarTheme(
             iconTheme: IconThemeData(
               color: Colors.black,

@@ -19,6 +19,7 @@ class _HomePageState extends State<HomePage> {
     TodoProvider todoProvider =
         Provider.of<TodoProvider>(context, listen: false);
     return MaterialApp(
+      theme: ThemeData.light(useMaterial3: true),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
